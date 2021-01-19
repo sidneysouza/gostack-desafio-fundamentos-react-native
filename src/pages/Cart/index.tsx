@@ -40,22 +40,42 @@ const Cart: React.FC = () => {
 
   function handleIncrement(id: string): void {
     // TODO
+    increment(id);
   }
 
   function handleDecrement(id: string): void {
     // TODO
+    decrement(id);
   }
 
-  const cartTotal = useMemo(() => {
-    // TODO RETURN THE SUM OF THE QUANTITY OF THE PRODUCTS IN THE CART
+  // const cartTotal = useMemo(() => {
+  //   // TODO RETURN THE SUM OF THE QUANTITY OF THE PRODUCTS IN THE CART
 
-    return formatValue(0);
+  //   return formatValue(0);
+  // }, [products]);
+
+  // const totalItensInCart = useMemo(() => {
+  //   // TODO RETURN THE SUM OF THE QUANTITY OF THE PRODUCTS IN THE CART
+
+  //   return 0;
+  // }, [products]);
+
+  const cartTotal = useMemo(() => {
+    // TODO RETURN THE SUM OF THE PRICE FROM ALL ITEMS IN THE CART
+    const totalPrice = products.reduce((prevTotalPrice, elem) => {
+      return prevTotalPrice + elem.quantity * elem.price;
+    }, 0);
+
+    return formatValue(totalPrice);
   }, [products]);
 
-  const totalItensInCart = useMemo(() => {
+  const totalItensInCart = useMemo((): number => {
     // TODO RETURN THE SUM OF THE QUANTITY OF THE PRODUCTS IN THE CART
+    const totalItemsCart = products.reduce((prevTotalItensCart, elem) => {
+      return Number(prevTotalItensCart + elem.quantity);
+    }, 0);
 
-    return 0;
+    return Number.isNaN(totalItemsCart) ? 0 : totalItemsCart;
   }, [products]);
 
   return (
@@ -105,6 +125,7 @@ const Cart: React.FC = () => {
           )}
         />
       </ProductContainer>
+      {/* <FloatingCart /> */}
       <TotalProductsContainer>
         <FeatherIcon name="shopping-cart" color="#fff" size={24} />
         <TotalProductsText>{`${totalItensInCart} itens`}</TotalProductsText>
